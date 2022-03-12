@@ -1,6 +1,8 @@
 ﻿
 
 // ReSharper disable InconsistentNaming
+using System.Reflection;
+
 namespace Abd.Shared.Core.Roles;
 
 public static class ApplicationRoles

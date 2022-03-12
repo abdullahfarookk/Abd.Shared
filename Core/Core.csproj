@@ -1,47 +1,34 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-	<PackageVersion>0.0.2-alpha</PackageVersion>
+	<LangVersion>10</LangVersion>
+	<TargetFrameworks>net45;net46;netstandard2.0;net6.0</TargetFrameworks>
+	<PackageVersion>0.0.9-alpha</PackageVersion>
     <Nullable>enable</Nullable>
 	<ImplicitUsings>enable</ImplicitUsings>
 	<PackageId>Abd.Shared.$(AssemblyName)</PackageId>
 	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	<Authors>Abd.Shared.$(AssemblyName)</Authors>
 	<Product>Abd.Shared.$(AssemblyName)</Product>
-	<PackageProjectUrl>https://github.com/abdullahgb/SharedUtils</PackageProjectUrl>
+	<PackageProjectUrl>https://github.com/abdullahgb/Abd.Shared</PackageProjectUrl>
 	<PackageIcon>logo.png</PackageIcon>
-	<RepositoryUrl>https://github.com/abdullahgb/SharedUtils</RepositoryUrl>
+	<RepositoryUrl>https://github.com/abdullahgb/Abd.Shared</RepositoryUrl>
 	<RootNamespace>Abd.Shared.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
 	<AssemblyName>Abd.Shared.$(MSBuildProjectName)</AssemblyName>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <LangVersion>10</LangVersion>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <LangVersion>10</LangVersion>
-  </PropertyGroup>
-
-  <ItemGroup>
+ <ItemGroup>
     <None Include="..\logo.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-    <None Include="Abel.PropertyInjection\Abel.PropertyInjection.csproj" />
   </ItemGroup>
-
-
-  <ItemGroup>
-    <PackageReference Include="FluentValidation" Version="10.3.6" />
-    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
-    <PackageReference Include="IdentityModel" Version="6.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.16.0" />
+  <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
+	<PackageReference Include="System.Net.Http" Version="4.3.4" />
+  </ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'net46'">
+	<PackageReference Include="System.Net.Http" Version="4.3.4" />
   </ItemGroup>
 
 </Project>

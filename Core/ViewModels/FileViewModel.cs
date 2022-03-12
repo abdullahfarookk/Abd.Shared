@@ -1,17 +1,18 @@
 ﻿namespace Abd.Shared.Core.ViewModels;
 
-public class FileViewModel: IBaseViewModel
+public class FileViewModel: IViewModel
 
 {
-    [Required] public string Name { get; set; } = default!;
+    public virtual string Name { get; set; } = default!;
 
-    [Required] public MemoryStream Stream { get; set; } = default!;
+    public virtual MemoryStream Stream { get; set; } = default!;
 
-    public string Label { get; set; } = default!;
+    public virtual string Label { get; set; } = default!;
+    public virtual string Extension { get; set; } = default!;
 }
 
 public class FileLimit
 {
-    public int Length { get; set; }
-    public int Count { get; set; }
+    public virtual int Length { get; set; }
+    public virtual int Count { get; set; }
 }

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
+ <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <TargetFrameworks>net48</TargetFrameworks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System.Messaging" />
+    <ProjectReference Include="..\Rebus.Msmq\Rebus.Msmq.csproj" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
+    <PackageReference Include="rebus.tests.contracts" Version="6.0.0" />
+  </ItemGroup>
+</Project>

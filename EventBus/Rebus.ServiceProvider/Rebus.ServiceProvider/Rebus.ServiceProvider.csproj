@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0</TargetFrameworks>
+		<LangVersion>10</LangVersion>
+		<Authors>mookid8000</Authors>
+		<PackageProjectUrl>https://rebus.fm/what-is-rebus/</PackageProjectUrl>
+		<Copyright>Copyright Rebus FM ApS 2012</Copyright>
+		<PackageTags>rebus service-provider ioc dependency-injection</PackageTags>
+		<PackageDescription>Provides a service provider-based container adapter for Rebus</PackageDescription>
+		<RepositoryUrl>https://github.com/rebus-org/Rebus</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+		<RootNamespace>Rebus</RootNamespace>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageIcon>little_rebusbus2_copy-200x200.png</PackageIcon>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Include="..\artwork\little_rebusbus2_copy-200x200.png">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="[3, 7)" />
+		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="[3, 7)" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Rebus\Rebus\Rebus.csproj" />
+	</ItemGroup>
+</Project>
