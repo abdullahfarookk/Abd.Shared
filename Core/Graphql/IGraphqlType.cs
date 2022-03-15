@@ -1,3 +1,3 @@
-﻿namespace Abd.Shared.Core.Graphql;
+﻿namespace Abd.Shared.Core.GraphQL;
 
-public interface IGraphqlType {}
+public interface IGraphQlType {}
