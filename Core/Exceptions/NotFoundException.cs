@@ -1,6 +1,6 @@
 ﻿namespace Abd.Shared.Core.Exceptions;
 
-public class NotFoundException : QuickException
+public class NotFoundException : AbdException
 {
     public NotFoundException(string description) : base("Not Found",description, 404) { }
 }

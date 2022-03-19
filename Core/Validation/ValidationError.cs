@@ -1,6 +1,7 @@
-﻿namespace Abd.Shared.Core.Validation;
+﻿
+namespace Abd.Shared.Core.Validation;
 
-public class ValidationError
+public class ValidationError : IError
 {
 
     public ValidationError()
@@ -59,6 +60,7 @@ public class ValidationError
     /// Gets or sets the formatted message placeholder values.
     /// </summary>
     public Dictionary<string, object> FormattedMessagePlaceholderValues { get; set; } = null!;
+    public int Code { get; set; } = 500;
 
     /// <summary>
     /// Creates a textual representation of the failure.
@@ -67,14 +69,4 @@ public class ValidationError
     {
         return ErrorMessage;
     }
-}
-/// <summary>Specifies the severity of a rule.</summary>
-public enum Severity
-{
-    /// <summary>Error</summary>
-    Error,
-    /// <summary>Warning</summary>
-    Warning,
-    /// <summary>Info</summary>
-    Info,
 }

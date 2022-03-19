@@ -1,12 +1,10 @@
-﻿using Abd.Shared.Core.Errors;
+﻿using Abd.Shared.Core.Exceptions;
 
-namespace Abd.Shared.Core.Results;
-
-public class Result<T>
+public class Result<T> : IResult<T>
 {
     public T Value { get; set; } = default!;
     public bool IsValid { get; set; }
-    public ResultError Error { get; set; } = null!;
+    public IEnumerable<IError>? Errors { get; set; }
 
     public static Result<T> CreateResult(T value) =>
         new()
@@ -14,10 +12,13 @@ public class Result<T>
             Value = value,
             IsValid = true
         };
-    public static Result<T> CreateError(Type type, string message) =>
+    public static Result<T> CreateError(AbdException type, string message) =>
         new()
         {
-            Error = new ResultError() { ErrorType = type, Message = message },
+            Errors = new List<ResultError>() 
+            {
+                new ResultError() { ErrorType = type, Message = message }
+            } ,
             IsValid = false
         };
 }

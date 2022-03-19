@@ -1,6 +1,6 @@
 ﻿namespace Abd.Shared.Core.Exceptions;
 
-public class ConflictException : QuickException
+public class ConflictException : AbdException
 {
     public ConflictException(string description) : base("Conflict",description, 409) { }
     public static ConflictException Create(string argument) => new($@"Provided argument: ""{argument}"" mismatch");
