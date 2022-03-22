@@ -8,5 +8,5 @@ public static class NotFoundCustomException
 {
     // To Do: convert 'this string' to 'this GuidEntity' for NotFound and others like this.
     public static NotFoundException NotFound(this string entity, object id) =>
-        new($" {entity} Not Found against Id: {id.ToString()}");
+        new($" {entity} Not Found against Id: {id}");
 }

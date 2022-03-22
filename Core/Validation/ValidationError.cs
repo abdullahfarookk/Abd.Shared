@@ -16,25 +16,27 @@ public class ValidationError : IError
     {
     }
 
+
     /// <summary>
     /// Creates a new ValidationFailure.
     /// </summary>
     public ValidationError(string propertyName, string errorMessage, object attemptedValue)
     {
-        PropertyName = propertyName;
-        ErrorMessage = errorMessage;
+        Property = propertyName;
+        Message = errorMessage;
         AttemptedValue = attemptedValue;
     }
+
 
     /// <summary>
     /// The name of the property.
     /// </summary>
-    public string PropertyName { get; set; } = null!;
+    public string Property { get; set; } = null!;
 
     /// <summary>
     /// The error message
     /// </summary>
-    public string ErrorMessage { get; set; } = null!;
+    public string Message { get; set; } = null!;
 
     /// <summary>
     /// The property value that caused the failure.
@@ -61,12 +63,13 @@ public class ValidationError : IError
     /// </summary>
     public Dictionary<string, object> FormattedMessagePlaceholderValues { get; set; } = null!;
     public int Code { get; set; } = 500;
+    public Exception? Exception { get; set; } = new ValidationException("Validation Error");
 
     /// <summary>
     /// Creates a textual representation of the failure.
     /// </summary>
     public override string ToString()
     {
-        return ErrorMessage;
+        return Message;
     }
 }

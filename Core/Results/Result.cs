@@ -1,5 +1,8 @@
-﻿using Abd.Shared.Core.Exceptions;
-
+﻿
+public interface IResult<T> : IIsSuccess
+{
+    public T Value { get; set; }
+}
 public class Result<T> : IResult<T>
 {
     public T Value { get; set; } = default!;
@@ -12,13 +15,19 @@ public class Result<T> : IResult<T>
             Value = value,
             IsValid = true
         };
-    public static Result<T> CreateError(AbdException type, string message) =>
+    public static Result<T> CreateError(string message, int code = 500, Exception? exception = default) =>
         new()
         {
             Errors = new List<ResultError>() 
             {
-                new ResultError() { ErrorType = type, Message = message }
+                new ResultError() { Message = message, Code = code, Exception = exception }
             } ,
+            IsValid = false
+        };
+    public static Result<T> CreateError(List<ResultError> errors) =>
+        new()
+        {
+            Errors = errors,
             IsValid = false
         };
 }
