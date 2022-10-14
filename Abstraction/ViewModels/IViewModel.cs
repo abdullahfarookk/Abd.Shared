@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace Abd.Shared.Abstraction.ViewModels;
+﻿namespace Abd.Shared.Abstraction.ViewModels;
 
 public interface IViewModel: INotifyPropertyChanged, IDisposable
 {

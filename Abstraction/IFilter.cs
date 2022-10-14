@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace Abd.Shared.Abstraction;
+﻿namespace Abd.Shared.Abstraction;
 
 public interface IFilter:INotifyPropertyChanged
 {

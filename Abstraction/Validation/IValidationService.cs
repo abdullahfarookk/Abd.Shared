@@ -1,4 +1,4 @@
-﻿namespace Abd.Shared.Core.Validation;
+﻿namespace Abd.Shared.Abstraction.Validation;
 
 public interface IValidationService
 {

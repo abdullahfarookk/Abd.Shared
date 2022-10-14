@@ -1,6 +1,4 @@
-﻿using Abd.Shared.Abstraction.Models;
-
-namespace Abd.Shared.Abstraction.ViewModels;
+﻿namespace Abd.Shared.Abstraction.ViewModels;
 
 public interface IPageViewModel:IViewModel
 {

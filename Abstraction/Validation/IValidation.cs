@@ -1,4 +1,4 @@
-﻿namespace Abd.Shared.Abstraction;
+﻿namespace Abd.Shared.Abstraction.Validation;
 
 public interface IValidation
 {
