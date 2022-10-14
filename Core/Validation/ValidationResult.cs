@@ -1,17 +1,21 @@
 ﻿namespace Abd.Shared.Core.Validation;
 
-public interface IValidationResult{}
+
 public class ValidationResult:IValidationResult
 {
-    public bool IsValid => Errors.Count < 1;
-    public readonly List<ValidationError> Errors;
+    private readonly IEnumerable<IValidationError> _errors;
+
     public ValidationResult()
     {
-        Errors = new List<ValidationError>();
+        _errors = Enumerable.Empty<IValidationError>();
     }
-    public ValidationResult(List<ValidationError> errors)
+    public ValidationResult(IEnumerable<IValidationError> errors)
     {
-        Errors = errors;
+        _errors = errors;
     }
+    public bool IsSuccess  => _errors.Any();
 
+    IEnumerable<IValidationError> IValidationResult.Errors => _errors;
+
+    public IEnumerable<IError> Errors => _errors;
 }

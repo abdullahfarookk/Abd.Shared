@@ -2,45 +2,56 @@
 
 public class AppSettings
 {
-    public IdentityAuthorization IdentityAuthorization { get; set; }
     public bool InMemoryEventBus { get; set; }
     public int PageSize { get; set; }
-    public string ApplicationName { get; set; }
-    public string SupportMail { get; set; }
-    public string ApiUrl { get; set; }
-    public string Authority { get; set; }
-    public string Audience { get; set; }
-    public string Secret { get; set; }
-    public string EmailTemplatePath { get; set; }
-    public string Environment { get; set; }
-    public DomainSettings Domain { get; set; }
-    public BlobSettings Blob { get; set; }
-    public EmailAuth Email { get; set; }
-    public string MicrosoftClientSecret { get; set; }
-    public string MicrosoftClientId { get; set; }
-    public string MicrosoftAuthority { get; set; }
+    public ThisApplication This { get; set; } = null!;
+    public string SupportMail { get; set; } = null!;
+    public string ApiUrl { get; set; } = null!;
+    public string EmailTemplatePath { get; set; } = null!;
+    public string Environment { get; set; } = null!;
+    public DomainSettings Domain { get; set; } = null!;
+    public BlobSettings Blob { get; set; } = null!;
+    public EmailAuth Email { get; set; } = null!;
+    public Microsoft Microsoft { get; set; } = null!;   
 }
-public class BlobSettings
-{
-    public string ConnectionString { get; set; }
-    public string QfBlobContainer { get; set; }
 
-}
-public class EmailAuth
+public abstract class ThisApplication
 {
-    public string Email { get; set; }
-    public string Password { get; set; }
+    public string Name { get; set; } = null!;
+    public string Environment { get; set; } = null!;
+    public string Authority { get; set; } = null!;
+    public string Audience { get; set; } = null!;
+    public string Secret { get; set; } = null!;
+    
 }
-public class DomainSettings
+
+public abstract class Microsoft
 {
-    public string ServerIp { get; set; }
-    public string Record { get; set; }
-    public string Credentials { get; set; }
-}
-public class IdentityAuthorization
+    public string ClientSecret { get; set; } = null!;
+    public string ClientId { get; set; } = null!;
+    public string Authority { get; set; } = null!;
+} 
+public class AuthSettings
 {
-    public string Authority { get; set; }
-    public List<string> ValidIssuers { get; set; }
-    public string Audience { get; set; }
-    public string Secret { get; set; }
+    public string Authority { get; set; } = null!;
+    public List<string> ValidIssuers { get; set; } = null!;
+    public string Audience { get; set; } = null!;
+    public string Secret { get; set; } = null!;
+} 
+public abstract class BlobSettings
+{
+    public string ConnectionString { get; set; } = null!;
+    public string QfBlobContainer { get; set; } = null!;
+
+} 
+public abstract class EmailAuth
+{
+    public string Email { get; set; } = null!;
+    public string Password { get; set; } = null!;
 }
+public abstract class DomainSettings
+{
+    public string ServerIp { get; set; } = null!;
+    public string Record { get; set; } = null!;
+    public string Credentials { get; set; } = null!;
+} 

@@ -1,18 +1,14 @@
-﻿
-namespace Abd.Shared.Core.Validation;
+﻿namespace Abd.Shared.Core.Validation;
 
-public class ValidationError : IError
+
+public class ValidationError : IValidationError
 {
-
-    public ValidationError()
-    {
-
-    }
 
     /// <summary>
     /// Creates a new validation failure.
     /// </summary>
-    public ValidationError(string propertyName, string errorMessage) : this(propertyName, errorMessage, null)
+    public ValidationError(string propertyName, string errorMessage,string? description = null) : 
+        this(propertyName, errorMessage, null,description)
     {
     }
 
@@ -20,11 +16,12 @@ public class ValidationError : IError
     /// <summary>
     /// Creates a new ValidationFailure.
     /// </summary>
-    public ValidationError(string propertyName, string errorMessage, object attemptedValue)
+    public ValidationError(string propertyName, string errorMessage, object? attemptedValue,string? description = null)
     {
         Property = propertyName;
         Message = errorMessage;
         AttemptedValue = attemptedValue;
+        Description = description;
     }
 
 
@@ -41,7 +38,7 @@ public class ValidationError : IError
     /// <summary>
     /// The property value that caused the failure.
     /// </summary>
-    public object AttemptedValue { get; set; } = null!;
+    public object? AttemptedValue { get; set; } = null!;
 
     /// <summary>
     /// Custom state associated with the failure.
@@ -52,17 +49,14 @@ public class ValidationError : IError
     /// Custom severity level associated with the failure.
     /// </summary>
     public Severity Severity { get; set; } = Severity.Error;
-
-    /// <summary>
-    /// Gets or sets the error code.
-    /// </summary>
-    public string ErrorCode { get; set; } = null!;
+    
 
     /// <summary>
     /// Gets or sets the formatted message placeholder values.
     /// </summary>
     public Dictionary<string, object> FormattedMessagePlaceholderValues { get; set; } = null!;
-    public int Code { get; set; } = 500;
+    public string Code { get; set; } = "400";
+    public string? Description { get; }
     public Exception? Exception { get; set; } = new ValidationException("Validation Error");
 
     /// <summary>

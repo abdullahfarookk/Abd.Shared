@@ -1,11 +1,8 @@
-﻿using Abd.Shared.Core.Claims;
-using System.Security.Claims;
-
-namespace Abd.Shared.Core.Session;
+﻿namespace Abd.Shared.Core;
 
 public class Session
 {
-    protected readonly ClaimsPrincipal _claims = default!;
+    private readonly ClaimsPrincipal _claims = default!;
 
     private static Exception NotFoundError(string val)
         => new KeyNotFoundException($"{val} does not exist in Claims");
@@ -71,15 +68,15 @@ public class Session
         set => _email = value;
     }
 
-    private List<string?> _roles = null!;
+    private List<string?>? _roles;
 
     public List<string?> Roles
     {
         get
         {
-            if (_roles != null) return _roles;
+            if (_roles is {}) return _roles;
             var roles = _claims.FindAll(ApplicationClaims.Role);
-            _roles = new List<string?>();
+            _roles ??= new List<string?>();
             foreach (var role in roles)
             {
                 _roles.Add(role?.Value);

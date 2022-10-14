@@ -1,7 +1,8 @@
-﻿using System.Security.Cryptography;
+﻿using System.Globalization;
+using System.Security.Cryptography;
 using System.Text;
 
-namespace Abd.Shared.Core.Encodings;
+namespace Abd.Shared.Core;
 
 public class Encryption : IEncryption
 {
@@ -19,19 +20,19 @@ public class Encryption : IEncryption
         var key = securityKey;
         if (useHashing)
         {
-            var hashMd5 = new MD5CryptoServiceProvider();
+            using var hashMd5 = SHA512.Create();
             keyArray = hashMd5.ComputeHash(Encoding.UTF8.GetBytes(key));
             hashMd5.Clear();
         }
         else
             keyArray = Encoding.UTF8.GetBytes(key);
 
-        var tripleDes = new TripleDESCryptoServiceProvider
-        {
-            Key = keyArray,
-            Mode = CipherMode.ECB,
-            Padding = PaddingMode.PKCS7
-        };
+        using var tripleDes = TripleDES.Create();
+
+        tripleDes.Key = keyArray;
+        tripleDes.Mode = CipherMode.ECB;
+        tripleDes.Padding = PaddingMode.PKCS7;
+        
         var cTransform = tripleDes.CreateEncryptor();
         var resultArray =
             cTransform.TransformFinalBlock(toEncryptArray, 0,
@@ -48,7 +49,7 @@ public class Encryption : IEncryption
         var key = securityKey;
         if (useHashing)
         {
-            var hashMd5 = new MD5CryptoServiceProvider();
+            using var hashMd5 = MD5.Create();
             keyArray = hashMd5.ComputeHash(Encoding.UTF8.GetBytes(key));
             hashMd5.Clear();
         }
@@ -57,16 +58,21 @@ public class Encryption : IEncryption
             keyArray = Encoding.UTF8.GetBytes(key);
         }
 
-        var tripleDes = new TripleDESCryptoServiceProvider
-        {
-            Key = keyArray,
-            Mode = CipherMode.ECB,
-            Padding = PaddingMode.PKCS7
-        };
+        using var tripleDes = TripleDES.Create();
+
+        tripleDes.Key = keyArray;
+        tripleDes.Mode = CipherMode.ECB;
+        tripleDes.Padding = PaddingMode.PKCS7;
+        
         var cTransform = tripleDes.CreateDecryptor();
         var resultArray = cTransform.TransformFinalBlock(
             toEncryptArray, 0, toEncryptArray.Length);
         tripleDes.Clear();
         return Encoding.UTF8.GetString(resultArray);
     }
+}
+public static class Base64Utils
+{
+    public static string ToBase64Key(long number) =>
+        Convert.ToBase64String(Encoding.UTF8.GetBytes(string.Format(CultureInfo.InvariantCulture, "{0:D4}", number)));
 }
