@@ -1,8 +1,9 @@
-﻿namespace Abd.Shared.Abstraction;
+﻿using System.ComponentModel;
 
-public interface IViewModel:IDisposable
+namespace Abd.Shared.Abstraction.ViewModels;
+
+public interface IViewModel: INotifyPropertyChanged, IDisposable
 {
-    // event PropertyChangedEventHandler PropertyChanged;
     IEnumerable<IError>? ServerErrors { get; set; }
     public Action? OnStateChange { get; set; }
     public IObservable<bool> Disposed0 { get; }

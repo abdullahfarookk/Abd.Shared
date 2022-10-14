@@ -1,4 +1,4 @@
-﻿namespace Abd.Shared.Abstraction;
+﻿namespace Abd.Shared.Abstraction.ViewModels;
 public interface IFormViewModel:IViewModel
 {
     void Submit();

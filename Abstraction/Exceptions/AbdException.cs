@@ -3,7 +3,7 @@
 public class AbdException : Exception
 {
     public int Code { get;}
-    public string Description { get; private set; }
+    public string Description { get; }
 
     public AbdException():base("Bad Request")
     {
