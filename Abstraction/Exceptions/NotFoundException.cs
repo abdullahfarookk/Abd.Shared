@@ -1,4 +1,4 @@
-﻿namespace Abd.Shared.Core.Exceptions;
+﻿namespace Abd.Shared.Abstraction.Exceptions;
 
 public class NotFoundException : AbdException
 {

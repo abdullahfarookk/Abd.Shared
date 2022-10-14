@@ -8,5 +8,5 @@ public interface IResult
 }
 public interface IResult<out T> : IResult
 {
-    public T? Data { get;  }
+    public T? Value { get;  }
 }

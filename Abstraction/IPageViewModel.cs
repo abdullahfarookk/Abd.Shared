@@ -3,7 +3,7 @@
 public interface IPageViewModel:IViewModel
 {
     bool PageLoading { get; set; }
-    IFilterablePaginator FilterablePaginator { get;}
+    IPageFilter PageFilter { get;}
 }
 
 public interface IPageViewModel<T> : IPageViewModel where T:IModel
@@ -13,5 +13,5 @@ public interface IPageViewModel<T> : IPageViewModel where T:IModel
 }
 public interface IPageViewModel<T, out TR>: IPageViewModel<T> where T : IModel where TR: ICommonFilter
 {
-    new IFilterablePaginator<TR> FilterablePaginator { get;}
+    new IPageFilter<TR> PageFilter { get;}
 }

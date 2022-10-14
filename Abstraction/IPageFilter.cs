@@ -1,6 +1,6 @@
 ﻿namespace Abd.Shared.Abstraction;
 
-public interface IFilterablePaginator:IDisposable
+public interface IPageFilter:IDisposable
 {
     ICommonFilter Filters { get; }
     public IPaginator Paginator { get; set; }
@@ -8,9 +8,9 @@ public interface IFilterablePaginator:IDisposable
     void UpdatePageInfo(IPageInfo pageInfo,int? totalCount = null);
     void UpdatePageInfo(IPageResult pageResult);
     void Refresh();
-    IObservable<IFilterablePaginator> Change0 { get; }
+    IObservable<IPageFilter> Change0 { get; }
 }
-public interface IFilterablePaginator<out T>:IFilterablePaginator where T:ICommonFilter
+public interface IPageFilter<out T>:IPageFilter where T:ICommonFilter
 {
     new T Filters { get; }
 }

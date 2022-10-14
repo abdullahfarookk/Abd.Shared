@@ -1,6 +1,6 @@
-﻿using Abd.Shared.Core.Events;
+﻿using Abd.Shared.Abstraction.Events;
 
-namespace Abd.Shared.Core.EventBus;
+namespace Abd.Shared.Abstraction;
 public interface IEventBus
 {
     Task Publish(IEnumerable<IEvent> events, CancellationToken cancellationToken = default);

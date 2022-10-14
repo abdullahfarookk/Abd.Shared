@@ -1,4 +1,4 @@
-﻿namespace Abd.Shared.Core.Events;
+﻿namespace Abd.Shared.Abstraction.Events;
 
 public interface IIntegrationEvent : IEvent { }
 

@@ -1,6 +1,6 @@
-﻿namespace Abd.Shared.Core.Encodings;
+﻿namespace Abd.Shared.Abstraction;
 
-public interface IEncryption: ICommonManager
+public interface IEncryption
 {
     string Encrypt(string toEncrypt, bool useHashing = true);
     string Decrypt(string cipherString, bool useHashing = true);

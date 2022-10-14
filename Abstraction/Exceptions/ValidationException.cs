@@ -1,4 +1,4 @@
-﻿using Abd.Shared.Core.Exceptions;
+﻿namespace Abd.Shared.Abstraction.Exceptions;
 
 public class ValidationException : AbdException
 {
