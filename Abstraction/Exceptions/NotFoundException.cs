@@ -1,6 +1,6 @@
 ﻿namespace Abd.Shared.Abstraction.Exceptions;
 
-public class NotFoundException : AbdException
+public class NotFoundException : ApplicationException
 {
     public NotFoundException(string description) : base("Not Found",description, 404) { }
 }
