@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <LangVersion>10</LangVersion>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <PackageVersion>0.0.10-alpha</PackageVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <PackageId>Abd.Shared.$(AssemblyName)</PackageId>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+        <Authors>Abd.Shared.$(AssemblyName)</Authors>
+        <Product>Abd.Shared.$(AssemblyName)</Product>
+        <PackageProjectUrl>https://github.com/abdullahgb/Abd.Shared</PackageProjectUrl>
+        <PackageIcon>logo.png</PackageIcon>
+        <RepositoryUrl>https://github.com/abdullahgb/Abd.Shared</RepositoryUrl>
+        <RootNamespace>Abd.Shared.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+        <AssemblyName>Abd.Shared.$(MSBuildProjectName)</AssemblyName>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="..\logo.png">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+    </ItemGroup>
+</Project>
