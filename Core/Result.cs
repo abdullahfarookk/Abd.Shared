@@ -8,8 +8,32 @@ public class Result:IResult
     public string StatusCode => IsSuccess ? "200" : Errors.FirstOrDefault()?.Code??"400";
     public string Message => Errors.FirstOrDefault()?.Message??"An error occured";
     
-    public static IResult<T> Create<T>(T? value) where T : class 
-        => new Result<T>(value);
+    public static IResult<T> Parse<T>(IOperationResult request) where T : class
+    {
+        return request
+            .IsSuccessResult() ? 
+            
+            Create(request.Data?
+                .GetType()
+                .GetProperties()
+                .FirstOrDefault()?
+                .GetValue(request.Data)?
+                .Adapt<T>()) : 
+            
+            Fail<T>(request?
+                .Errors?
+                .Adapt<IError>());
+    }
+    public static IResult Parse(IOperationResult result) 
+        => result.IsSuccessResult() ? 
+            Create() : 
+            Fail(result.Errors.Adapt<IEnumerable<Error>>());
+
+    public static IResult<T> Create<T>(T? data) where T : class 
+        => new Result<T>(data);
+
+    public static IObservable<IResult<T>> Create0<T>(T? data) where T : class 
+        => Observable.Return<IResult<T>>(new Result<T>(data));
 
     // errors
     public static IResult<T> Fail<T>(IEnumerable<IError> errors) where T : class

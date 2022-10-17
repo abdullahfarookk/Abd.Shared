@@ -12,4 +12,5 @@ public interface IPageFilter:IDisposable
 public interface IPageFilter<out T>:IPageFilter where T:IFilter
 {
     new T Filters { get; }
+    new IObservable<IPageFilter<T>> Change0 { get; }
 }
