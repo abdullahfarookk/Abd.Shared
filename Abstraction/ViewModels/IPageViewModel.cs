@@ -2,7 +2,6 @@
 
 public interface IPageViewModel:IViewModel
 {
-    bool PageLoading { get; set; }
     IPageFilter PageFilter { get;}
 }
 

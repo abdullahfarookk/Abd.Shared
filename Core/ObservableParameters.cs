@@ -57,4 +57,19 @@ public static class ObservableParametersExtensions
     {
         return dictionary.GetOrAdd(key, () => new TValue());
     }
+    public static IObservable<R> WhereParamSelect<T, R>(this IObservable<IReadOnlyDictionary<string, object>> paramsObs,
+        string key, Func<T, IObservable<R>> func)
+    {
+        return paramsObs
+            .Where(x =>
+                x.ContainsKey(key))
+            .Select(x => (T)x["key"])
+            .SelectMany(func);
+    }
+
+    public static IObservable<T?> Get<T>(IObservable<IReadOnlyDictionary<string, object>> source, string key,
+        T? defaultValue = default)
+    {
+        return source.Select(x => x.TryGetValue(key, out var value) ? (T)value : defaultValue);
+    }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Abd.Shared.Utils.ObjectUtils;
 
-public static class QfPropertySetter
+public static class PropertySetter
 {
     public static T SetProperty<T>(this T obj, string property, dynamic value)
     {

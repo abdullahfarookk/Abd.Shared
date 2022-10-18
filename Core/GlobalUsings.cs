@@ -12,6 +12,7 @@ global using Abd.Shared.Abstraction;
 global using Abd.Shared.Abstraction.Exceptions;
 global using Abd.Shared.Abstraction.Models;
 global using Abd.Shared.Abstraction.Validation;
+global using Abd.Shared.Abstraction.ViewModels;
 global using Abd.Shared.Core.Claims;
 global using Abd.Shared.Core.Filters;
 global using Mapster;

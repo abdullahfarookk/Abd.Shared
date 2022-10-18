@@ -2,6 +2,6 @@
 
 public static class NullOrEmpty
 {
-    public static bool IsNullOrEmpty(this string? value) =>
+    public static bool IsNoE(this string? value) =>
         string.IsNullOrEmpty(value);
 }
