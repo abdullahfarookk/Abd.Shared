@@ -46,7 +46,7 @@ public abstract class ViewModelBase : IViewModel
     public void ChangeState() => OnStateChange?.Invoke();
     
 
-    private readonly Subject<IEnumerable<IError>> _errorSubject = new();
+    private readonly ReplaySubject<IEnumerable<IError>> _errorSubject = new(1);
     public IObservable<IEnumerable<IError>> Errors0 => _errorSubject;
 
     public void OnErrors(IEnumerable<IError>? errors)
@@ -54,12 +54,22 @@ public abstract class ViewModelBase : IViewModel
         _errorSubject.OnNext(errors??Enumerable.Empty<IError>());
     }
 
+    public IObservable<T> Create0<T>(IObservable<T> observable)
+    {
+        return observable.TakeUntil(Disposed0);
+    }
+
+    public IObservable<T> Create0<T>(Func<IObservable<T>> observable)
+    {
+        var obs = observable.Invoke();
+        return obs.TakeUntil(Disposed0);
+    }
+
+
     public void ClearErrors()
     {
         _errorSubject.OnNext(Enumerable.Empty<IError>());
     }
-
-    public IEnumerable<IError>? ServerErrors { get; set; }
 
     /// <summary>
     /// Raises the <see cref="PropertyChanged"/> event
