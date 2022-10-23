@@ -1,4 +1,6 @@
-﻿namespace Abd.Shared.Core;
+﻿using Abd.Shared.Core.ReactiveExtensions;
+
+namespace Abd.Shared.Core;
 
 /// <summary>
 /// A base class for view models
@@ -14,6 +16,7 @@ public abstract class ViewModelBase : IViewModel
     }
 
     private readonly Subject<bool> _disposed = new();
+    private Action? _onStateChange = null;
     public IObservable<bool> Disposed0 => _disposed.AsObservable();
 
     private bool _componentLoading = true;
@@ -43,7 +46,7 @@ public abstract class ViewModelBase : IViewModel
     }
     protected readonly ObservableParameters Param0 = new();
     
-    public void ChangeState() => OnStateChange?.Invoke();
+    public void ChangeState() => _onStateChange?.Invoke();
     
 
     private readonly ReplaySubject<IEnumerable<IError>> _errorSubject = new(1);
@@ -54,15 +57,30 @@ public abstract class ViewModelBase : IViewModel
         _errorSubject.OnNext(errors??Enumerable.Empty<IError>());
     }
 
-    public IObservable<T> Create0<T>(IObservable<T> observable)
+    public IObservable<T> WhenAny0<T>(IObservable<T> observable) where T : IResult
     {
-        return observable.TakeUntil(Disposed0);
-    }
+        var conObservable = observable
+            .TakeUntil(Disposed0)
+            .Publish();
 
-    public IObservable<T> Create0<T>(Func<IObservable<T>> observable)
+        conObservable
+            .OnErrorInternal(this);
+
+        return conObservable;
+    }
+    public IObservable<T> WhenAny0<T>(IObservable<T> observable, bool activateLoader) where T : IResult
     {
-        var obs = observable.Invoke();
-        return obs.TakeUntil(Disposed0);
+        var conObservable = observable
+            .TakeUntil(Disposed0)
+            .Publish();
+        
+         if(activateLoader)
+             Loading = activateLoader;
+         
+         conObservable
+            .OnErrorInternal(this);
+
+        return conObservable;
     }
 
 
@@ -81,24 +99,17 @@ public abstract class ViewModelBase : IViewModel
         Param0.OnNext(parameters);
     }
 
-    public Action? OnStateChange { get; set; }
+    Action? IViewModel.OnStateChange { get => _onStateChange; set => _onStateChange = value; }
 
 
     /// <summary>
     /// Raises the <see cref="PropertyChanged"/> event
     /// </summary>
     public virtual Task OnInitAsync() => Task.CompletedTask;
-    protected void MapErrorResult(IEnumerable<IError> errors)
-    {
-        OnErrors(errors);
-        Observable.Timer(TimeSpan.FromSeconds(5)).TakeUntil(Disposed0)
-            .Subscribe(_ => ClearErrors());
-    }
     
-
     public void Dispose()
     {
         _disposed.OnNext(true);
-        OnStateChange = null;
+        _onStateChange = null;
     }
 }

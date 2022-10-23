@@ -14,6 +14,13 @@ public class Error:IError
     {
         Message = message;
     }
+    public Error(Exception? exception = null)
+    {
+        Code = "500";
+        Message = exception?.Message??"An error occurred";
+        Description = exception?.StackTrace;
+        Exception = exception;
+    }
     public Error(string? code, string? message, string? description = null, Exception? exception = null)
     {
         Code = code??"400";

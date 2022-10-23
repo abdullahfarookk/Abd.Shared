@@ -13,6 +13,6 @@ public interface IViewModel: INotifyPropertyChanged, IDisposable
     void SetParameters(IReadOnlyDictionary<string, object>? parameters);
     void OnErrors(IEnumerable<IError>? errors);
     
-    IObservable<T> Create0<T>(IObservable<T> observable);
-    IObservable<T> Create0<T>(Func<IObservable<T>> observable);
+    IObservable<T> WhenAny0<T>(IObservable<T> observable, bool activateLoader) where T : IResult;
+    IObservable<T> WhenAny0<T>(IObservable<T> observable) where T : IResult;
 }

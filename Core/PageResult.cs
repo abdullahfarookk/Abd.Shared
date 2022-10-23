@@ -41,18 +41,26 @@ public class PageResult : IPageResult
 
     public static IPageResult<T> FromPage<T>(object? request) where T : class
     {
-        var result = request?.GetType().GetProperties().FirstOrDefault()?.GetValue(request)!;
-        var type = result?.GetType();
-        var totalCount = type?.GetProperty("TotalCount")?.GetValue(result);
-        var pageInfo = type?.GetProperty("PageInfo")?.GetValue(result);
-        var data = type?.GetProperty("Nodes")?.GetValue(result);
-        return new PageResult<T>
+        try
         {
-            IsSuccess = true,
-            TotalCount = totalCount is int i ? i : null,
-            PageInfo = new PageInfo(pageInfo!),
-            Data = data?.Adapt<List<T>>() as IEnumerable<T>?? Enumerable.Empty<T>()
-        };
+            var result = request?.GetType().GetProperties().FirstOrDefault()?.GetValue(request)!;
+            var type = result?.GetType();
+            var totalCount = type?.GetProperty("TotalCount")?.GetValue(result);
+            var pageInfo = type?.GetProperty("PageInfo")?.GetValue(result);
+            var data = type?.GetProperty("Nodes")?.GetValue(result);
+            return new PageResult<T>
+            {
+                IsSuccess = true,
+                TotalCount = totalCount is int i ? i : null,
+                PageInfo = new PageInfo(pageInfo!),
+                Data = data?.Adapt<List<T>>() as IEnumerable<T>?? Enumerable.Empty<T>()
+            };
+        }
+        catch (Exception e)
+        {
+            return new PageResult<T>(new Error());
+        }
+
     }
     public static IPageResult<T> Fail<T>(IEnumerable<IClientError> errors) where T : class 
         => new PageResult<T>(errors);
@@ -71,6 +79,18 @@ public class PageResult<T>:PageResult,IPageResult<T>
     {
         IsSuccess = false;
         Errors = errors.Select(x=> new Error(x.Code,x.Message,exception:x.Exception));
+
+    }
+    public PageResult(IEnumerable<IError> errors)
+    {
+        IsSuccess = false;
+        Errors = errors;
+
+    }
+    public PageResult(IError error)
+    {
+        IsSuccess = false;
+        Errors = new []{error};
 
     }
     public PageResult(IEnumerable<T> data,PageInfo? pageInfo = null,int? totalCount = null)

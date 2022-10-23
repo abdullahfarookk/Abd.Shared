@@ -88,4 +88,11 @@ public static class SuccessExtensions
             .Subscribe();
         return observable;
     }
+    public static IDisposable Complete<T>(this IObservable<T> observable,Action<T>? action = null)
+    {
+        var obs = observable.Subscribe(x => action?.Invoke(x));
+        if (observable is IConnectableObservable<T> connectableObservable)
+            connectableObservable.Connect();
+        return obs;
+    }
 }
