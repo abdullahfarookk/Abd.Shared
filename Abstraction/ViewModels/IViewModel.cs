@@ -11,8 +11,9 @@ public interface IViewModel: INotifyPropertyChanged, IDisposable
     
     Task OnInitAsync();
     void SetParameters(IReadOnlyDictionary<string, object>? parameters);
+    
     void OnErrors(IEnumerable<IError>? errors);
     
-    IObservable<T> WhenAny0<T>(IObservable<T> observable, bool activateLoader) where T : IResult;
-    IObservable<T> WhenAny0<T>(IObservable<T> observable) where T : IResult;
+    IObservable<T> WhenAnyResult0<T>(IObservable<T> observable, bool? componentLoading = null, bool? loading = null) where T : IResult;
+    IObservable<T> WhenAny0<T>(IObservable<T> observable, bool? componentLoading = null, bool? loading = null);
 }
