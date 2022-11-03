@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Hosting;
-namespace Abd.Shared.Core.Environments;
+
+namespace Abd.Shared.Environments;
 public static class ApplicationEnvironment
 {
     public static bool IsProd { get; private set; }
@@ -22,6 +23,6 @@ public static class ApplicationEnvironment
         IsProd = env == "prod";
         IsQa = env == "qa";
         IsTest = env == "test";
-        IsDev = env == "Development";
+        IsDev = env is "Development" or "dev" or "local";
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Hosting;
 
-namespace Abd.Shared.Core.Environments;
+namespace Abd.Shared.Environments;
 
 public static class EnvironmentExtensions
 {
@@ -11,7 +11,7 @@ public static class EnvironmentExtensions
     public static bool IsTest(this IHostEnvironment hosting) =>
         hosting?.EnvironmentName == "test";
     public static bool IsDev(this IHostEnvironment hosting) =>
-        hosting?.EnvironmentName == "Development";
+        hosting?.EnvironmentName is "Development" or "dev" or "local";
 
     public static void Set(this IHostEnvironment hosting, string env)
     {
