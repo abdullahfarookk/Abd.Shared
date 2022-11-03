@@ -16,7 +16,7 @@ public abstract class ViewModelBase : IViewModel
     }
 
     private readonly Subject<bool> _disposed = new();
-    private Action? _onStateChange = null;
+    private Action? _onStateChange;
     public IObservable<bool> Disposed0 => _disposed.AsObservable();
 
     private bool _componentLoading = true;
@@ -46,43 +46,47 @@ public abstract class ViewModelBase : IViewModel
     }
     protected readonly ObservableParameters Param0 = new();
     
-    public void ChangeState() => _onStateChange?.Invoke();
+    protected void ChangeState() => _onStateChange?.Invoke();
     
 
     private readonly ReplaySubject<IEnumerable<IError>> _errorSubject = new(1);
     public IObservable<IEnumerable<IError>> Errors0 => _errorSubject;
 
-    public void OnErrors(IEnumerable<IError>? errors)
+    public void OnErrors(IEnumerable<IError>? inputErrors)
     {
-        _errorSubject.OnNext(errors??Enumerable.Empty<IError>());
-    }
-
-    public IObservable<T> WhenAny0<T>(IObservable<T> observable) where T : IResult
-    {
-        var conObservable = observable
-            .TakeUntil(Disposed0)
-            .Publish();
-
-        conObservable
-            .OnErrorInternal(this);
-
-        return conObservable;
-    }
-    public IObservable<T> WhenAny0<T>(IObservable<T> observable, bool activateLoader) where T : IResult
-    {
-        var conObservable = observable
-            .TakeUntil(Disposed0)
-            .Publish();
+        if (inputErrors is null) return;
         
-         if(activateLoader)
-             Loading = activateLoader;
-         
-         conObservable
-            .OnErrorInternal(this);
-
-        return conObservable;
+        var errors = inputErrors.ToList();
+        if(errors.Any())
+            _errorSubject.OnNext(errors);
     }
 
+    public IObservable<T> WhenAnyResult0<T>(IObservable<T> observable, bool? componentLoading = null, bool? loading = null) where T : IResult
+    {
+        if (componentLoading.HasValue)
+            ComponentLoading = componentLoading.Value;
+        if (loading.HasValue)
+            Loading = loading.Value;
+        
+        return observable
+            .TakeUntil(Disposed0)
+            .OnErrorGeneric(this)
+            .Publish()
+            .OnErrorResult(this);
+    }
+
+    public IObservable<T> WhenAny0<T>(IObservable<T> observable, bool? componentLoading = null, bool? loading = null)
+    {
+        if (componentLoading.HasValue)
+            ComponentLoading = componentLoading.Value;
+        if (loading.HasValue)
+            Loading = loading.Value;
+        
+        return observable
+            .TakeUntil(Disposed0)
+            .OnErrorGeneric(this)
+            .Publish();
+    }
 
     public void ClearErrors()
     {

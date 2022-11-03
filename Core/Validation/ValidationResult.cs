@@ -16,6 +16,7 @@ public class ValidationResult:IValidationResult
     public bool IsSuccess  => _errors.Any();
 
     IEnumerable<IValidationError> IValidationResult.Errors => _errors;
+    public object Value => null!;
 
     public IEnumerable<IError> Errors => _errors;
 }

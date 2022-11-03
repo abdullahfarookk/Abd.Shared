@@ -2,12 +2,26 @@
 
 public class Result:IResult
 {
-    public bool IsSuccess { get; protected set; }
-    public object? Value { get; protected set; }
-    public IEnumerable<IError> Errors { get; protected set; }  = Enumerable.Empty<IError>();
+    public bool IsSuccess { get; }
+    public object? Value { get; }
+    public IEnumerable<IError> Errors { get; }  = Enumerable.Empty<IError>();
     public string StatusCode => IsSuccess ? "200" : Errors.FirstOrDefault()?.Code??"400";
     public string Message => Errors.FirstOrDefault()?.Message??"An error occured";
-    
+
+    protected Result(object? value)
+    {
+        IsSuccess = true;
+        Value = value;
+    }
+
+    protected Result(IEnumerable<IError>? errors)
+    {
+        IsSuccess = false;
+        var errorLst = errors?.ToList();
+        if(errorLst is {} && errorLst.Any())
+            Errors = errorLst;
+    }
+
     public static IResult<T> Parse<T>(IOperationResult request) where T : class
     {
         return request
@@ -20,9 +34,7 @@ public class Result:IResult
                 .GetValue(request.Data)?
                 .Adapt<T>()) : 
             
-            Fail<T>(request?
-                .Errors?
-                .Adapt<IError>());
+            Fail<T>(request.Errors.Adapt<IError>());
     }
     public static IResult Parse(IOperationResult result) 
         => result.IsSuccessResult() ? 
@@ -51,52 +63,40 @@ public class Result:IResult
     }
     public static IResult Create(object? value = null)
     {
-        return new Result {IsSuccess = true, Value = value};
+        return new Result(value);
     }
     public static IResult Fail(IError error)
     {
-        return new Result {IsSuccess = false, Errors = new List<IError> {error}};
+        return new Result(error);
     }
     public static IResult Fail(string error)
     {
-        return new Result {IsSuccess = false, Errors = new List<IError> {new Error(error)}};
+        return new Result(error);
     }
 
     public static IResult Fail()
     {
-        return new Result {IsSuccess = false, Errors = new List<IError> {new Error()}};
+        return new Result(Array.Empty<IError>());
     }
     public static IResult Fail(IEnumerable<IError> errors)
     {
-        return new Result {IsSuccess = false, Errors = errors};
+        return new Result(errors);
     }
     public static IResult Fail(IEnumerable<Error> errors)
     {
-        return new Result {IsSuccess = false, Errors = errors};
+        return new Result(errors);
     }
     
 }
 public class Result<T>:Result,IResult<T> where T : class
 {
-    public Result(T? value)
-    {
-        Value = value;
-        IsSuccess = true;
-    }
-    public Result(IEnumerable<IError> errors)
-    {
-        Errors = errors;
-        IsSuccess = false;
-    }
+    public new T? Value => (T?)base.Value;
+    public Result(T? value):base(value){ }
+    public Result(IEnumerable<IError> errors):base(errors){ }
+    
     public Result(IError? error)
-    {
-        Errors = new List<IError> {error??new Error("Something went wrong. Error is not specified")};
-        IsSuccess = false;
-    }
+        : base(new []{ error ?? new Error("Something went wrong. Error is not specified") }){ }
+    
     public Result(string? error = null)
-    {
-        Errors = new List<IError> {new Error(error??"An Error Occurred")};
-        IsSuccess = false;
-    }
-    public new T? Value { get; }
+        :base(new []{new Error(error??"Something went wrong. Error is not specified") }){ }
 }
