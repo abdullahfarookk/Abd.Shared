@@ -26,7 +26,8 @@ public class Result:IResult
 
     public static IResult<T> Parse<T>(IOperationResult request) where T : class
     {
-        if(!request.IsErrorResult())
+        var isSuccess = request.IsSuccessResult();
+        if(!isSuccess)
             return Fail<T>(request.Errors.Adapt<IError>());
         
         var properties = request.Data?
