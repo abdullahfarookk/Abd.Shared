@@ -5,7 +5,7 @@ public interface IViewModel: INotifyPropertyChanged, IDisposable
 
     public Action? OnStateChange { get; set; }
     public IObservable<bool> Disposed0 { get; }
-    public bool ComponentLoading { get; set; }
+    public bool PreLoading { get; set; }
     public bool Loading { get; set; }
     public IObservable<IEnumerable<IError>> Errors0 { get; }
     
@@ -13,7 +13,11 @@ public interface IViewModel: INotifyPropertyChanged, IDisposable
     void SetParameters(IReadOnlyDictionary<string, object>? parameters);
     
     void OnErrors(IEnumerable<IError>? errors);
-    
-    IObservable<T> WhenAnyResult0<T>(IObservable<T> observable, bool? componentLoading = null, bool? loading = null) where T : IResult;
-    IObservable<T> WhenAny0<T>(IObservable<T> observable, bool? componentLoading = null, bool? loading = null);
+    IObservable<T> WhenResult0<T>(Func<IObservable<T>> select) where T : IResult;
+
+    IObservable<T> WhenResult0<T>(bool? preLoading = null, bool? loading = null, Func<IObservable<T>>? select = null)
+        where T : IResult;
+
+    IObservable<T> WhenAny0<T>(Func<IObservable<T>> select);
+    IObservable<T> WhenAny0<T>(bool? preLoading = null, bool? loading = null, Func<IObservable<T>>? select = null);
 }

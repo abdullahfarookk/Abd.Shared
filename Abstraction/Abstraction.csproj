@@ -3,7 +3,7 @@
     <PropertyGroup>
         <LangVersion>10</LangVersion>
         <TargetFrameworks>net45;net46;netstandard2.0;net6.0</TargetFrameworks>
-        <PackageVersion>0.0.60-alpha</PackageVersion>
+        <PackageVersion>00.0.31-alpha</PackageVersion>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <PackageId>Abd.Shared.$(AssemblyName)</PackageId>
