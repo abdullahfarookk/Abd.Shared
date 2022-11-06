@@ -112,8 +112,8 @@ public sealed class Paginator:IPaginator
         public void ChangePageInfo(IPageResult? pageResult)
         {
             var pageInfo = pageResult?.PageInfo;
-            HasNextPage = (bool)pageInfo?.HasNextPage;
-            HasPreviousPage = (bool)pageInfo?.HasPreviousPage;
+            HasNextPage = pageInfo?.HasNextPage??false;
+            HasPreviousPage = pageInfo?.HasPreviousPage??false;
             StartCursor = pageInfo?.StartCursor;
             EndCursor = pageInfo?.EndCursor;
             TotalCount = pageResult?.TotalCount;
@@ -121,8 +121,8 @@ public sealed class Paginator:IPaginator
         }
         public void ChangePageInfo(IPageInfo? pageInfo, int? totalCount = null)
         {
-            HasNextPage = (bool)pageInfo?.HasNextPage;
-            HasPreviousPage = (bool)pageInfo?.HasPreviousPage;
+            HasNextPage = pageInfo?.HasNextPage??false;
+            HasPreviousPage = pageInfo?.HasPreviousPage??false;
             StartCursor = pageInfo?.StartCursor;
             EndCursor = pageInfo?.EndCursor;
             TotalCount = totalCount;

@@ -65,8 +65,11 @@ public class PageResult : IPageResult
             var totalCount = type?.GetProperty("TotalCount")?.GetValue(result);
             var pageInfo = type?.GetProperty("PageInfo")?.GetValue(result);
             var nodes = type?.GetProperty("Nodes")?.GetValue(result) as IEnumerable;
+
             var data = from object value in nodes.AsNotNull()
-                                     select (T)Activator.CreateInstance(typeof(T), value);
+                select value is IEnumerable enumerable
+                    ? enumerable.Cast<object>().CreateInstanceFrom<T>()
+                    : value.CreateInstanceFrom<T>();
             return new PageResult<T>(
                 data,
                 new PageInfo(pageInfo!), 

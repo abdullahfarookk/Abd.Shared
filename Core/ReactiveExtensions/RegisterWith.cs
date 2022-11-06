@@ -2,10 +2,10 @@ namespace Abd.Shared.Core.ReactiveExtensions;
 
 public static class BindWithExtensions
 {
-    public static IObservable<T> RegisterWith<T>(this IObservable<T> observable, IViewModel viewModel,bool? initLoading = null, bool? loading = null) where T : IResult
+    public static IObservable<T> RegisterWith<T>(this IObservable<T> observable, IViewModel viewModel,bool? preLoading = null, bool? loading = null) where T : IResult
     {
-        if(initLoading.HasValue)
-            viewModel.ComponentLoading = initLoading.Value;
+        if(preLoading.HasValue)
+            viewModel.PreLoading = preLoading.Value;
         if (loading.HasValue)
             viewModel.Loading = loading.Value;
         
@@ -16,10 +16,10 @@ public static class BindWithExtensions
             .OnErrorResult(viewModel);
 
     }
-    public static IObservable<T> Register<T>(this IObservable<T> observable, IViewModel viewModel,bool? initLoading = null, bool? loading = null)
+    public static IObservable<T> Register<T>(this IObservable<T> observable, IViewModel viewModel,bool? preLoading = null, bool? loading = null)
     {
-        if(initLoading.HasValue)
-            viewModel.ComponentLoading = initLoading.Value;
+        if(preLoading.HasValue)
+            viewModel.PreLoading = preLoading.Value;
         if (loading.HasValue)
             viewModel.Loading = loading.Value;
         

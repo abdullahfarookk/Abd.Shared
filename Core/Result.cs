@@ -1,4 +1,6 @@
-﻿namespace Abd.Shared.Core;
+﻿using Abd.Shared.Core.Utils;
+
+namespace Abd.Shared.Core;
 
 public class Result:IResult
 {
@@ -24,17 +26,20 @@ public class Result:IResult
 
     public static IResult<T> Parse<T>(IOperationResult request) where T : class
     {
-        return request
-            .IsSuccessResult() ? 
-            
-            Create(request.Data?
-                .GetType()
-                .GetProperties()
-                .FirstOrDefault()?
-                .GetValue(request.Data)?
-                .Adapt<T>()) : 
-            
-            Fail<T>(request.Errors.Adapt<IError>());
+        if(!request.IsErrorResult())
+            return Fail<T>(request.Errors.Adapt<IError>());
+        
+        var properties = request.Data?
+            .GetType()
+            .GetProperties()
+            .Select(x 
+                => x.GetValue(request.Data))
+            .ToList();
+
+        return Create(
+            properties is { Count: 1 } ? 
+            properties.First().CreateInstanceFrom<T>() : 
+            properties.CreateInstanceFrom<T>());
     }
     public static IResult Parse(IOperationResult result) 
         => result.IsSuccessResult() ? 

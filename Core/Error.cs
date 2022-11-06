@@ -1,4 +1,6 @@
-﻿namespace Abd.Shared.Core;
+﻿using System.Text.Json.Serialization;
+
+namespace Abd.Shared.Core;
 
 public class Error:IError
 {
@@ -6,6 +8,7 @@ public class Error:IError
     public string? Property { get; set; } = null!;
     public string Message { get; } = "An error occurred";
     public string? Description { get; set; }
+    [JsonIgnore]
     public Exception? Exception { get; set; }
     public Severity Severity { get; set; }
 
