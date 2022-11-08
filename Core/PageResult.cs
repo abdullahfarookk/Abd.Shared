@@ -13,8 +13,9 @@ public class PageInfo:IPageInfo
 
     public PageInfo(dynamic? pageInfo)
     {
-        HasPreviousPage = pageInfo?.HasPreviousPage;
-        HasNextPage = pageInfo?.HasNextPage;
+        if(pageInfo == null) return;
+        HasPreviousPage = pageInfo?.HasPreviousPage??false;
+        HasNextPage = pageInfo?.HasNextPage??false;
         StartCursor = pageInfo?.StartCursor;
         EndCursor = pageInfo?.EndCursor;
     }
