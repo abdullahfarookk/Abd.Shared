@@ -89,7 +89,7 @@ public class PageResult<T>:PageResult,IPageResult<T>
 {
     public new IEnumerable<T> Value => base.Value as IEnumerable<T>?? Enumerable.Empty<T>();
     public PageResult(IEnumerable<IClientError> errors)
-        :base(errors.Select(x=> new Error(x.Code,x.Message,exception:x.Exception))){}
+        :base(errors.Select(x=> new Error(x.Code,x.Message,stackTrace:x.Exception?.StackTrace))){}
     public PageResult(IEnumerable<IError> errors)
         :base(errors){}
     public PageResult(IError error) : base(new[] {error}) { }

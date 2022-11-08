@@ -57,7 +57,8 @@ public class ValidationError : IValidationError
     public Dictionary<string, object> FormattedMessagePlaceholderValues { get; set; } = null!;
     public string Code { get; set; } = "400";
     public string? Description { get; }
-    public Exception? Exception { get; set; } = new ValidationException("Validation Error");
+    public string? StackTrace { get; }
+    public Exception? Exception { get; set; }
 
     /// <summary>
     /// Creates a textual representation of the failure.

@@ -5,6 +5,7 @@ public interface IError
     public string Message { get; }
     public string? Code { get; }
     public string? Description { get; }
+    public string? StackTrace { get; }
     public Exception? Exception { get;}
     public Severity Severity { get; set; }
 
