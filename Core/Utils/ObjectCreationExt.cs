@@ -29,7 +29,7 @@ public static class ObjectCreationExt
                     ? $@"List<{enu.Cast<object>()
                         .FirstOrDefault()?
                         .GetType().Name}>"
-                    : x.GetType().Name));
+                    : x?.GetType().Name));
             throw new MissingMethodException($"The constructor of '{typeof(T).Name}' does not have parameter of types '{typeNames}'", e);
         }
     }

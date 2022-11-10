@@ -5,13 +5,17 @@ public static class ResponseExtensions
     public static IObservable<IResult> MapResponse(this IObservable<IOperationResult> observable)
         => observable
             .Select(Result.Parse);
+    public static IObservable<IResult<IEnumerable<T>>> MapEnumerable<T>(this IObservable<IOperationResult> observable)
+        where T : class 
+        => observable
+            .Select(Result.ParseEnumerable<T>);
 
     public static IObservable<IResult<T>> MapResponse<T>(this IObservable<IOperationResult> observable)
-        where T : class
-        => observable.Select(Result.Parse<T>);
- 
+        where T : class,IModel 
+        => observable
+            .Select(Result.Parse<T>);
 
     public static IObservable<IPageResult<T>> MapPagination<T>(this IObservable<IOperationResult> observable)
-        where T : class, IModel =>
+        where T : class =>
         observable.Select(PageResult.Parse<T>);
 }

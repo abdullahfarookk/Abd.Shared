@@ -1,4 +1,5 @@
-﻿using Abd.Shared.Core.Utils;
+﻿using System.Collections;
+using Abd.Shared.Core.Utils;
 
 namespace Abd.Shared.Core;
 
@@ -23,7 +24,25 @@ public class Result:IResult
         if(errorLst is {} && errorLst.Any())
             Errors = errorLst;
     }
-
+    public static IResult<IEnumerable<T>> ParseEnumerable<T>(IOperationResult request) where T : class
+    {
+        var isSuccess = request.IsSuccessResult();
+        if(!isSuccess)
+            return FailEnumerable<T>(request.Errors.Adapt<IError>());
+        
+        var nodes = request.Data?
+            .GetType()
+            .GetProperties()
+            .Select(x 
+                => x.GetValue(request.Data))
+            .FirstOrDefault() as IEnumerable;
+        
+        var data = from object value in nodes.AsNotNull()
+            select value is IEnumerable enumerable
+                ? enumerable.Cast<object>().CreateInstanceFrom<T>()
+                : value.CreateInstanceFrom<T>();
+        return Create(data);
+    }
     public static IResult<T> Parse<T>(IOperationResult request) where T : class
     {
         var isSuccess = request.IsSuccessResult();
@@ -62,6 +81,10 @@ public class Result:IResult
     public static IResult<T> Fail<T>(IError? error) where T : class
     {
         return new Result<T>(error);
+    }
+    public static IResult<IEnumerable<T>> FailEnumerable<T>(IError? error) where T : class
+    {
+        return new Result<IEnumerable<T>>(error);
     }
     public static IResult<T> Fail<T>(string? message = null) where T : class
     {
